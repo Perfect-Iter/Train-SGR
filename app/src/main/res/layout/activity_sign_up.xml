@@ -27,6 +27,7 @@
                 >
 
                 <EditText
+                    android:id="@+id/addName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="35dp"
@@ -37,6 +38,7 @@
 
                     />
                 <EditText
+                    android:id="@+id/addEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="35dp"
@@ -46,6 +48,7 @@
                     android:inputType="textEmailAddress"
                     />
                 <EditText
+                    android:id="@+id/addPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="35dp"
@@ -55,6 +58,7 @@
                     android:inputType="phone"
                     />
                 <EditText
+                    android:id="@+id/addPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="35dp"
