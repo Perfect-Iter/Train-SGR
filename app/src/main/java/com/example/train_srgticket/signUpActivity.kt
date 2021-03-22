@@ -1,5 +1,6 @@
 package com.example.train_srgticket
 
+
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -9,6 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
+import androidx.core.content.ContextCompat.startActivity
 import com.example.train_srgticket.databinding.ActivitySignUpBinding
 import org.json.JSONArray
 import org.json.JSONObject
@@ -30,8 +32,7 @@ class signUpActivity : AppCompatActivity() {
         binding.buttonSignUp.setOnClickListener {
                 val tosignup = SignUpAsyncTask(applicationContext)
                 tosignup.execute()
-                val toMain = Intent(applicationContext, MainScreenActivity::class.java)
-                startActivity(toMain)
+
 
         }
 
@@ -60,7 +61,6 @@ class signUpActivity : AppCompatActivity() {
                 builder .appendQueryParameter("name", name)
                 builder .appendQueryParameter("phone", phone.toString())
                 builder .appendQueryParameter("password", pass)
-                builder .appendQueryParameter("key", "oooo")
             }
 
             override fun doInBackground(vararg params: String?):  String? {
@@ -87,21 +87,24 @@ class signUpActivity : AppCompatActivity() {
                 } catch (e: java.lang.Exception) {
                     Log.e("Fail 2", e.toString())
                 }
-                fun onPostExecute(result: String?) {
-                    super.onPostExecute(result)
+                return resulta;
+            }
+            override fun onPostExecute(result: String?) {
+                super.onPostExecute(result)
 
-                    var json_data = JSONObject(resulta)
-                    val code: Int = json_data.getInt("code")
-                    Log.e("data",code.toString())
-                    if (code == 1) {
-                        val com: JSONArray = json_data.getJSONArray("userdetails")
-                        val comObject = com[0] as JSONObject
-                        Log.e("data",""+comObject.optString("fname"))
+                var json_data = JSONObject(resulta)
+                val code: Int = json_data.getInt("code")
+                Log.e("data",code.toString())
+                if (code == 1) {
+                    //val com: JSONArray = json_data.getJSONArray("userdetails")
+                    //val comObject = com[0] as JSONObject
+                    //Log.e("data",""+comObject.optString("fname"))
 
-                    }
+                    val toMain = Intent(cont, MainScreenActivity::class.java)
+                    toMain.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    cont.startActivity(toMain)
+
                 }
-
-                return null;
             }
         }
 

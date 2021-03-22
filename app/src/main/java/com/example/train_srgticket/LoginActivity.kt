@@ -1,4 +1,10 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.train_srgticket
+
+import com.example.train_srgticket.MainScreenActivity
+import com.example.train_srgticket.signUpActivity
+import org.json.JSONArray
 
 import android.content.Context
 import android.content.Intent
@@ -29,11 +35,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(view)
 
         binding.buttonLogIn.setOnClickListener {
-            //val toMain = Intent(applicationContext, MainScreenActivity::class.java)
-            //startActivity(toMain)
-
             val login = MyAsyncTask(applicationContext)
-            login.execute()
+           login.execute()
 
         }
         binding.textSignin.setOnClickListener{
@@ -55,10 +58,10 @@ class LoginActivity : AppCompatActivity() {
                 progressBar.isIndeterminate=true
                 progressBar.visibility= View.VISIBLE
 
-                val phone: Int = binding.inputPhone.text.toString().toInt()
+                val phone: String = binding.inputPhone.text.toString()
                 val pass: String = binding.inputPassword.text.toString()
 
-                builder .appendQueryParameter("phone", phone.toString())
+                builder .appendQueryParameter("phone", phone)
                 builder .appendQueryParameter("password", pass)
                 builder .appendQueryParameter("key", "oooo")
             }
@@ -67,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
                 try {
 
                     var query = builder.build().encodedQuery
-                    val url: String = "http://sgrticket96.000webhostapp.com/sgr/read.php"
+                    val url: String = "https://sgrticket96.000webhostapp.com/sgr/read.php"
                     val obj = URL(url)
                     con = obj.openConnection() as HttpURLConnection
                     con.setRequestMethod("GET")
@@ -87,23 +90,26 @@ class LoginActivity : AppCompatActivity() {
                 } catch (e: java.lang.Exception) {
                     Log.e("Fail 2", e.toString())
                 }
-                fun onPostExecute(result: String?) {
-                    super.onPostExecute(result)
-
-                    var json_data = JSONObject(resulta)
-                    val code: Int = json_data.getInt("code")
-                    Log.e("data",code.toString())
-                    if (code == 1) {
-//                        val com: JSONArray = json_data.getJSONArray("userdetails")
-//                        val comObject = com[0] as JSONObject
-//                        Log.e("data",""+comObject.optString("fname"))
-                        val toMain = Intent(cont, MainScreenActivity::class.java)
-                        cont.startActivity(toMain)
-                    }
-                }
-
                 return null;
             }
+           override fun onPostExecute(result: String?) {
+                super.onPostExecute(result)
+                var json_data = JSONObject(resulta)
+                val code: Int = json_data.getInt("code")
+                Log.e("data",code.toString())
+                if (code == 1) {
+                    //val com: JSONArray = json_data.getJSONArray("userdetails")
+                    //val comObject = com[0] as JSONObject
+                    //Log.e("data",""+comObject.optString("fname"))
+                    val toMain = Intent(cont, MainScreenActivity::class.java)
+                    toMain.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    cont.run {
+                        startActivity(toMain)
+                    }
+                }
+            }
+
+
         }
 
     }
