@@ -25,7 +25,10 @@ import java.net.URL
 
 
 private lateinit var binding: ActivityLoginBinding
+lateinit var progressBar: ProgressBar
 class LoginActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -33,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
         var view = binding.root
 
         setContentView(view)
+        progressBar = binding.progressDay
 
         binding.buttonLogIn.setOnClickListener {
             val login = MyAsyncTask(applicationContext)
@@ -54,7 +58,6 @@ class LoginActivity : AppCompatActivity() {
             override fun onPreExecute() {
                 super.onPreExecute()
 
-                val progressBar= ProgressBar(cont)
                 progressBar.isIndeterminate=true
                 progressBar.visibility= View.VISIBLE
 
@@ -94,14 +97,16 @@ class LoginActivity : AppCompatActivity() {
             }
            override fun onPostExecute(result: String?) {
                 super.onPostExecute(result)
+               progressBar.visibility = View.GONE
                 var json_data = JSONObject(resulta)
                 val code: Int = json_data.getInt("code")
                 Log.e("data",code.toString())
                 if (code == 1) {
+                    Toast.makeText(cont, "Login Successful", Toast.LENGTH_SHORT).show()
                     //val com: JSONArray = json_data.getJSONArray("userdetails")
                     //val comObject = com[0] as JSONObject
                     //Log.e("data",""+comObject.optString("fname"))
-                    val toMain = Intent(cont, MainScreenActivity::class.java)
+                    val toMain = Intent(cont, AllTickets::class.java)
                     toMain.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     cont.run {
                         startActivity(toMain)
