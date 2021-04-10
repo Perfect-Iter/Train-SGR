@@ -1,30 +1,44 @@
 package com.example.train_srgticket
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.train_srgticket.addapters.AllTicketsAdaptors
+import com.example.train_srgticket.databinding.ActivityAllTicketsBinding
+import com.example.train_srgticket.models.Tickets
 import org.json.JSONArray
-import org.json.JSONObject
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
+private lateinit var binding: ActivityAllTicketsBinding
+val mTicketDetails =  ArrayList<Tickets>()
+
 class AllTickets : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_all_tickets)
+
+        binding = ActivityAllTicketsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val mRecyclerView = binding.allTheTickets
+        mRecyclerView.setHasFixedSize(true)
+        mRecyclerView.layoutManager = LinearLayoutManager(this)
+
+
         MyAsyncTask(applicationContext).execute()
+
     }
     class MyAsyncTask internal constructor(context: Context) : AsyncTask<String, String, String>() {
         lateinit var con: HttpURLConnection
         lateinit var resulta:String
         val builder = Uri.Builder()
+        val mRecyclerView = binding.allTheTickets
         private val cont: Context =context
         override fun onPreExecute() {
             super.onPreExecute()
@@ -65,6 +79,15 @@ class AllTickets : AppCompatActivity() {
             progressBar.visibility = View.GONE
             var json_data = JSONArray(resulta)
 
+            for (i in 0 until json_data.length()) {
+                val jsonObject = json_data.getJSONObject(i)
+                val Uname = jsonObject.optString("name")
+                val tktNumber = jsonObject.optString("ticket_number")
+                val source = jsonObject.optString("source")
+                val destination = jsonObject.optString("destination")
+                mTicketDetails.add(Tickets(Uname, tktNumber,source, destination))
+            }
+            mRecyclerView.adapter = AllTicketsAdaptors(mTicketDetails)
             Log.e("data", json_data.toString())
         }
 

@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TrainSRGticket"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AllTickets"></activity>
+        <activity android:name=".MainPage"></activity>
+        <activity android:name=".AllTickets" />
         <activity android:name=".signUpActivity" />
         <activity
             android:name=".MainScreenActivity"
