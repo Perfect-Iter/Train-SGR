@@ -17,7 +17,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 private lateinit var binding: ActivityAllTicketsBinding
-val mTicketDetails =  ArrayList<Tickets>()
+val mTicketDetails = ArrayList<Tickets>()
 
 class AllTickets : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,25 +30,25 @@ class AllTickets : AppCompatActivity() {
         mRecyclerView.setHasFixedSize(true)
         mRecyclerView.layoutManager = LinearLayoutManager(this)
 
-
         MyAsyncTask(applicationContext).execute()
 
     }
+
     class MyAsyncTask internal constructor(context: Context) : AsyncTask<String, String, String>() {
         lateinit var con: HttpURLConnection
-        lateinit var resulta:String
+        lateinit var resulta: String
         val builder = Uri.Builder()
         val mRecyclerView = binding.allTheTickets
-        private val cont: Context =context
+        private val cont: Context = context
         override fun onPreExecute() {
             super.onPreExecute()
 
-            progressBar.isIndeterminate=true
-            progressBar.visibility= View.VISIBLE
+            progressBar.isIndeterminate = true
+            progressBar.visibility = View.VISIBLE
 
         }
 
-        override fun doInBackground(vararg params: String?):  String? {
+        override fun doInBackground(vararg params: String?): String? {
             try {
 
                 var query = builder.build().encodedQuery
@@ -56,7 +56,10 @@ class AllTickets : AppCompatActivity() {
                 val obj = URL(url)
                 con = obj.openConnection() as HttpURLConnection
                 con.setRequestMethod("GET")
-                con.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)")
+                con.setRequestProperty(
+                    "User-Agent",
+                    "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)"
+                )
                 con.setRequestProperty("Accept-Language", "UTF-8")
                 con.setDoOutput(true)
                 val outputStreamWriter = OutputStreamWriter(con.getOutputStream())
@@ -74,6 +77,7 @@ class AllTickets : AppCompatActivity() {
             }
             return "";
         }
+
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
             progressBar.visibility = View.GONE
@@ -85,7 +89,7 @@ class AllTickets : AppCompatActivity() {
                 val tktNumber = jsonObject.optString("ticket_number")
                 val source = jsonObject.optString("source")
                 val destination = jsonObject.optString("destination")
-                mTicketDetails.add(Tickets(Uname, tktNumber,source, destination))
+                mTicketDetails.add(Tickets(Uname, tktNumber, source, destination))
             }
             mRecyclerView.adapter = AllTicketsAdaptors(mTicketDetails)
             Log.e("data", json_data.toString())

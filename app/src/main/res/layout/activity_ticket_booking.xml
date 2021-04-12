@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="18dp"
+    tools:context=".TicketBooking">
+
+    <EditText
+        android:id="@+id/text_enter_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Phone number"
+        />
+    <EditText
+        android:id="@+id/text_enter_current_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter current Location"
+        />
+    <EditText
+        android:id="@+id/text_enter_destination"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Destination"
+        />
+    <EditText
+        android:id="@+id/text_travel_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Travel date"
+        android:inputType="datetime"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:id="@+id/ticket_submit"
+        />
+
+
+</LinearLayout>

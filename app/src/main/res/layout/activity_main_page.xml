@@ -24,17 +24,15 @@
 
         >
         <Button
+            android:id="@+id/button_myTicket"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="My Ticket" />
         <Button
+            android:id="@+id/button_bookTicket"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Upcoming train trips" />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="My Ticket" />
+            android:text="Book trip" />
 
     </LinearLayout>
 
