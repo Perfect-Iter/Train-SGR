@@ -10,14 +10,14 @@ import com.example.train_srgticket.models.Tickets
 
 class AllTicketsAdaptors(val tickets: ArrayList<Tickets>) : RecyclerView.Adapter<AllTicketsAdaptors.ViewHolder>() {
 
+
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val txtPassengerName: TextView = view.findViewById(R.id.txtUserName)
-        val txtSourceFrom: TextView = view.findViewById(R.id.txtSource)
-        val txtDestinationTo: TextView = view.findViewById(R.id.txtDestination)
-        val txtTkTNumber: TextView = view.findViewById(R.id.txtTicketNumber)
+        val passengerName: TextView = view.findViewById(R.id.txtUserName)
+        val sourceFrom: TextView = view.findViewById(R.id.txtSource)
+        val destinationTo: TextView = view.findViewById(R.id.txtDestination)
+        val ticketkTNumber: TextView = view.findViewById(R.id.txtTicketNumber)
 
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.ticket_row, parent, false)
 
@@ -26,10 +26,10 @@ class AllTicketsAdaptors(val tickets: ArrayList<Tickets>) : RecyclerView.Adapter
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = tickets[position]
-        holder.txtTkTNumber.text = currentItem.ticket_number
-        holder.txtPassengerName.text = currentItem.Uname
-        holder.txtSourceFrom.text = currentItem.source
-        holder.txtDestinationTo.text = currentItem.destination
+        holder.passengerName.text = currentItem.ticket_number
+        holder.sourceFrom.text = currentItem.Uname
+        holder.destinationTo.text = currentItem.source
+        holder.ticketkTNumber.text = currentItem.destination
 
     }
 

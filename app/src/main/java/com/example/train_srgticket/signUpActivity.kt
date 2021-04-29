@@ -32,8 +32,6 @@ class signUpActivity : AppCompatActivity() {
         binding.buttonSignUp.setOnClickListener {
                 val tosignup = SignUpAsyncTask(applicationContext)
                 tosignup.execute()
-
-
         }
 
         binding.textLogin.setOnClickListener {
@@ -96,10 +94,6 @@ class signUpActivity : AppCompatActivity() {
                 val code: Int = json_data.getInt("code")
                 Log.e("data",code.toString())
                 if (code == 1) {
-                    //val com: JSONArray = json_data.getJSONArray("userdetails")
-                    //val comObject = com[0] as JSONObject
-                    //Log.e("data",""+comObject.optString("fname"))
-
                     val toMain = Intent(cont, MainScreenActivity::class.java)
                     toMain.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     cont.startActivity(toMain)

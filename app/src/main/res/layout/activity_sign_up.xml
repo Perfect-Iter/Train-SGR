@@ -29,41 +29,35 @@
                 <EditText
                     android:id="@+id/addName"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edit_text_border"
+                    android:paddingHorizontal="20dp"
                     android:layout_marginHorizontal="35dp"
                     android:layout_marginVertical="8dp"
-                    android:paddingVertical="35dp"
                     android:hint="Name"
                     android:inputType="text"
 
                     />
-                <EditText
-                    android:id="@+id/addEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="35dp"
-                    android:layout_marginVertical="8dp"
-                    android:paddingVertical="35dp"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress"
-                    />
+
                 <EditText
                     android:id="@+id/addPhone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edit_text_border"
+                    android:paddingHorizontal="20dp"
                     android:layout_marginHorizontal="35dp"
                     android:layout_marginVertical="8dp"
-                    android:paddingVertical="35dp"
                     android:hint="phone Number"
                     android:inputType="phone"
                     />
                 <EditText
                     android:id="@+id/addPassword"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edit_text_border"
+                    android:paddingHorizontal="20dp"
                     android:layout_marginHorizontal="35dp"
                     android:layout_marginVertical="8dp"
-                    android:paddingVertical="35dp"
                     android:hint="password"
                     android:inputType="textPassword"
                     />

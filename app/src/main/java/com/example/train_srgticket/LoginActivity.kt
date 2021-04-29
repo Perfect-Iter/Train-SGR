@@ -18,6 +18,7 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.example.train_srgticket.databinding.ActivityLoginBinding
+import com.example.train_srgticket.util.SessionManager
 import org.json.JSONObject
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
@@ -26,9 +27,8 @@ import java.net.URL
 
 private lateinit var binding: ActivityLoginBinding
 lateinit var progressBar: ProgressBar
+lateinit var session: SessionManager
 class LoginActivity : AppCompatActivity() {
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -37,6 +37,14 @@ class LoginActivity : AppCompatActivity() {
 
         setContentView(view)
         progressBar = binding.progressDay
+        session = SessionManager(applicationContext)
+        if(session.isLoggedIn()){
+            var i: Intent = Intent(applicationContext, MainPage::class.java)
+            i.addFlags((Intent.FLAG_ACTIVITY_CLEAR_TOP))
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(i)
+            finish()
+        }
 
         binding.buttonLogIn.setOnClickListener {
             val login = MyAsyncTask(applicationContext)
@@ -102,6 +110,7 @@ class LoginActivity : AppCompatActivity() {
                 val code: Int = json_data.getInt("code")
                 Log.e("data",code.toString())
                 if (code == 1) {
+                    session.createLoginSession(phone = binding.inputPhone.text.toString(),password = binding.inputPassword.text.toString())
                     Toast.makeText(cont, "Login Successful", Toast.LENGTH_SHORT).show()
 
                     val toMain = Intent(cont, MainPage::class.java)

@@ -1,51 +1,84 @@
 package com.example.train_srgticket
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.AsyncTask
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.DatePicker
 import android.widget.ProgressBar
+import android.widget.TimePicker
+import androidx.annotation.RequiresApi
 import com.example.train_srgticket.databinding.ActivityTicketBookingBinding
+import com.example.train_srgticket.util.SessionManager
 import org.json.JSONObject
 import java.io.OutputStreamWriter
+import java.lang.Math.random
 import java.net.HttpURLConnection
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
 
 private lateinit var binding: ActivityTicketBookingBinding
-class TicketBooking : AppCompatActivity() {
+
+@Suppress("DEPRECATION")
+class TicketBooking : AppCompatActivity(){
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityTicketBookingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-    }
+        binding.ticketSubmit.setOnClickListener {
+            val book = BookTicketAsyncTask(applicationContext)
+            book.execute()
+        }
+
+}
+
     companion object {
-        class SignUpAsyncTask internal constructor(context: Context) : AsyncTask<String, String, String>() {
+
+        class BookTicketAsyncTask internal constructor(context: Context) : AsyncTask<String, String, String>() {
+            lateinit var session: SessionManager
             lateinit var con: HttpURLConnection
             lateinit var resulta:String
             val builder = Uri.Builder()
+            val today = Calendar.getInstance()
             private val cont: Context =context
             override fun onPreExecute() {
                 super.onPreExecute()
-                val phone: String = binding.textEnterPhone.text.toString()
+                session = SessionManager(cont)
+
+                var tktNumber: Int = (10001..90000).random()
+                var user: HashMap<String, String> = session.getUserDetails()
+                var customerId: String = user.get(SessionManager.KEY_PHONE)!!
                 val source: String = binding.textEnterCurrentLocation.text.toString()
                 val destination: String = binding.textEnterDestination.text.toString()
-                val tdatetime: String = binding.textTravelDate.text.toString()
+                val tdate = binding.tdate
+
+                tdate.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH)){
+                    view,year,month,day ->
+                    val month = month +1
+                    val date = (year/month/day)
+                    builder .appendQueryParameter("tdatetime", date.toString())
+                }
 
                 val progressBar= ProgressBar(cont)
                 progressBar.isIndeterminate=true
                 progressBar.visibility= View.VISIBLE
+                builder .appendQueryParameter("ticket_number", tktNumber.toString())
                 builder .appendQueryParameter("source", source)
-                builder .appendQueryParameter("phone", phone)
+                builder .appendQueryParameter("customer_id", customerId)
                 builder .appendQueryParameter("destination", destination)
-                builder .appendQueryParameter("tdatetime", tdatetime)
             }
-
             override fun doInBackground(vararg params: String?):  String? {
                 try {
 
@@ -79,11 +112,7 @@ class TicketBooking : AppCompatActivity() {
                 val code: Int = json_data.getInt("code")
                 Log.e("data",code.toString())
                 if (code == 1) {
-                    //val com: JSONArray = json_data.getJSONArray("userdetails")
-                    //val comObject = com[0] as JSONObject
-                    //Log.e("data",""+comObject.optString("fname"))
-
-                    val toMain = Intent(cont, MainScreenActivity::class.java)
+                    val toMain = Intent(cont, MainPage::class.java)
                     toMain.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     cont.startActivity(toMain)
 
@@ -93,3 +122,5 @@ class TicketBooking : AppCompatActivity() {
 
     }
 }
+
+

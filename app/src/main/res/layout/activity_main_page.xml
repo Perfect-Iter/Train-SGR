@@ -21,18 +21,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-
+        android:layout_marginTop="20dp"
         >
+
         <Button
             android:id="@+id/button_myTicket"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="20dp"
             android:text="My Ticket" />
         <Button
             android:id="@+id/button_bookTicket"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="40dp"
             android:text="Book trip" />
+        <Button
+            android:id="@+id/button_logout"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="40dp"
+            android:text="Log Out" />
 
     </LinearLayout>
 

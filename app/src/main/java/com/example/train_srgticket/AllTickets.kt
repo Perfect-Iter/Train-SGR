@@ -1,50 +1,71 @@
 package com.example.train_srgticket
 
+import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.Context
 import android.net.Uri
 import android.os.AsyncTask
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.DatePicker
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.train_srgticket.addapters.AllTicketsAdaptors
 import com.example.train_srgticket.databinding.ActivityAllTicketsBinding
 import com.example.train_srgticket.models.Tickets
+import com.example.train_srgticket.util.SessionManager
 import org.json.JSONArray
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.*
+import kotlin.collections.ArrayList
 
 private lateinit var binding: ActivityAllTicketsBinding
 val mTicketDetails = ArrayList<Tickets>()
+private lateinit var adapter: AllTicketsAdaptors
 
-class AllTickets : AppCompatActivity() {
+class AllTickets : AppCompatActivity()  {
+    lateinit var session: SessionManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityAllTicketsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val mRecyclerView = binding.allTheTickets
-        mRecyclerView.setHasFixedSize(true)
-        mRecyclerView.layoutManager = LinearLayoutManager(this)
+        session = SessionManager(applicationContext)
 
+        val mRecyclerView: RecyclerView = binding.allTheTickets
+        adapter = AllTicketsAdaptors(mTicketDetails)
+        mRecyclerView.setHasFixedSize(true)
+        mRecyclerView.adapter = adapter
+        mRecyclerView.layoutManager = LinearLayoutManager(this)
         MyAsyncTask(applicationContext).execute()
 
     }
-
     class MyAsyncTask internal constructor(context: Context) : AsyncTask<String, String, String>() {
         lateinit var con: HttpURLConnection
         lateinit var resulta: String
         val builder = Uri.Builder()
-        val mRecyclerView = binding.allTheTickets
+        lateinit var session: SessionManager
+        val mRecyclerView: RecyclerView = binding.allTheTickets
+
         private val cont: Context = context
         override fun onPreExecute() {
             super.onPreExecute()
 
             progressBar.isIndeterminate = true
             progressBar.visibility = View.VISIBLE
+
+            session = SessionManager(cont)
+            //var user: HashMap<String, String> = session.getUserDetails()
+            //var phone: String = user.get(SessionManager.KEY_PHONE)!!
+
+            //builder .appendQueryParameter("phone", phone)
 
         }
 
@@ -92,8 +113,12 @@ class AllTickets : AppCompatActivity() {
                 mTicketDetails.add(Tickets(Uname, tktNumber, source, destination))
             }
             mRecyclerView.adapter = AllTicketsAdaptors(mTicketDetails)
+            adapter.notifyDataSetChanged()
             Log.e("data", json_data.toString())
         }
 
     }
+
+
+
 }

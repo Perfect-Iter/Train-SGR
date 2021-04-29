@@ -32,11 +32,9 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:text="qwerty123"
-
             app:layout_constraintStart_toEndOf="@id/txtTicketingNumber"
             app:layout_constraintTop_toTopOf="parent"
             />
-        txtTicketNumber
         <TextView
             android:id="@+id/txtTicketingName"
             android:layout_width="wrap_content"
